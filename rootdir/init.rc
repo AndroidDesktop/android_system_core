@@ -1195,6 +1195,7 @@ on property:sys.boot_completed=1
     # Setup per_boot directory so other .rc could start to use it on boot_completed
     exec - system system -- /bin/rm -rf /data/per_boot
     mkdir /data/per_boot 0700 system system encryption=Require key=per_boot_ref
+    start startup_oneshot
 
 # system server cannot write to /proc/sys files,
 # and chown/chmod does not work for /proc/sys/ entries.
@@ -1329,3 +1330,10 @@ on property:persist.device_config.mglru_native.lru_gen_config=core_and_nonleaf_y
   write /sys/kernel/mm/lru_gen/enabled 5
 on property:persist.device_config.mglru_native.lru_gen_config=all
   write /sys/kernel/mm/lru_gen/enabled 7
+
+
+service startup_oneshot /system/bin/startup_oneshot.sh
+    user root
+    group root
+    disabled
+
